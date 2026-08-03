@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     DATABASE_URL: str
     LOG_LEVEL: str = "INFO"
     UPLOAD_DIRECTORY: str = "uploads"
+    JWT_SECRET_KEY: str
+    JWT_EXPIRATION_MINUTES: int = 60
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
