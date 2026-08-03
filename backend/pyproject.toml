@@ -1,0 +1,28 @@
+[project]
+name = "cloudvault-backend"
+version = "0.1.0"
+description = "CloudVault - Secure Cloud File Storage Platform"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "sqlalchemy>=2.0.0",
+    "alembic>=1.14.0",
+    "pydantic-settings>=2.6.0",
+    "asyncpg>=0.30.0",
+    "python-dotenv>=1.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.24.0",
+    "httpx>=0.28.0",
+]
