@@ -5,11 +5,13 @@ from alembic import context
 from sqlalchemy.ext.asyncio import create_async_engine
 
 from app.core.config import settings
+from app.database.base import Base
+import app.models.user  # noqa: F401 — registers User with Base.metadata
 
 config = context.config
 fileConfig(config.config_file_name)
 
-target_metadata = None
+target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:
