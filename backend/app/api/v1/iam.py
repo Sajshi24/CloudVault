@@ -6,12 +6,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.security import create_access_token, decode_access_token, hash_password, verify_password
 from app.database.session import get_db
+from app.models.folder import Folder
 from app.models.user import User
 from app.schemas.user import LoginRequest, RegisterRequest, TokenResponse, UserResponse
 
 router = APIRouter(prefix="/auth", tags=["IAM"])
 
 _bearer = HTTPBearer()
+_optional_bearer = HTTPBearer(auto_error=False)
 
 
 async def get_current_user(
@@ -32,6 +34,24 @@ async def get_current_user(
     return user
 
 
+async def get_optional_user(
+    credentials: HTTPAuthorizationCredentials | None = Depends(_optional_bearer),
+    db: AsyncSession = Depends(get_db),
+) -> User | None:
+    """Like get_current_user but returns None instead of raising when no token is provided."""
+    if credentials is None:
+        return None
+    try:
+        user_id = decode_access_token(credentials.credentials)
+    except jwt.PyJWTError:
+        return None
+    result = await db.execute(select(User).where(User.id == user_id))
+    user = result.scalar_one_or_none()
+    if user is None or not user.is_active:
+        return None
+    return user
+
+
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def register(body: RegisterRequest, db: AsyncSession = Depends(get_db)) -> User:
     result = await db.execute(select(User).where(User.email == body.email))
@@ -44,6 +64,9 @@ async def register(body: RegisterRequest, db: AsyncSession = Depends(get_db)) ->
         password_hash=hash_password(body.password),
     )
     db.add(user)
+    await db.flush()  # populate user.id before using it
+
+    db.add(Folder(name="ROOT", owner_id=user.id, is_root=True))
     await db.commit()
     await db.refresh(user)
     return user

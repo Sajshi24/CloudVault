@@ -33,3 +33,20 @@ class UserResponse(BaseModel):
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
+
+
+class UserUpdateRequest(BaseModel):
+    full_name: str
+
+
+class PasswordChangeRequest(BaseModel):
+    current_password: str
+    new_password: str
+
+
+class StorageUsageResponse(BaseModel):
+    storage_used: int
+    storage_limit: int
+    remaining_storage: int
+    percentage_used: float
+
