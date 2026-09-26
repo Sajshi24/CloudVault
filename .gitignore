@@ -28,3 +28,5 @@ Thumbs.db
 
 # Uploads
 backend/uploads/
+
+cloudvault_backup.dump

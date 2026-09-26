@@ -1,0 +1,25 @@
+# Environment variables and secrets
+.env
+.env.*
+
+# Python virtual environments
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Git
+.git/
+
+# User-uploaded files
+uploads/
+
+# Local development artifacts
+.DS_Store
