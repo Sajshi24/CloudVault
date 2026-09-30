@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { Search, HelpCircle, LogOut, Settings, Menu } from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import { useToast } from '@/context/ToastContext';
+import { useToast } from '@/hooks/useToast';
 import { Logo } from '@/components/ui/Logo';
 import { NotificationPanel } from '@/components/layout/NotificationPanel';
 

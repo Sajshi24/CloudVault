@@ -28,7 +28,7 @@ import { FileCardSkeleton, FileRowSkeleton } from '@/components/ui/Skeleton';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { ShareModal } from '@/components/files/ShareModal';
 import { FilePreviewModal } from '@/components/files/FilePreviewModal';
-import { useToast } from '@/context/ToastContext';
+import { useToast } from '@/hooks/useToast';
 
 interface UploadItem {
   id: string;
@@ -45,7 +45,6 @@ export function FilesPage() {
   const folderIdParam = searchParams.get('folder_id');
 
   const [rootFolder, setRootFolder] = useState<FolderItem | null>(null);
-  const [activeFolderId, setActiveFolderId] = useState<string | null>(folderIdParam);
   const [files, setFiles] = useState<FileItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -67,7 +66,6 @@ export function FilesPage() {
   const resolveFolder = useCallback(async () => {
     if (folderIdParam) {
       resolvedFolderIdRef.current = folderIdParam;
-      setActiveFolderId(folderIdParam);
       return folderIdParam;
     }
     const folders = await folderService.list(null);
@@ -75,7 +73,6 @@ export function FilesPage() {
     setRootFolder(root);
     const id = root?.id ?? null;
     resolvedFolderIdRef.current = id;
-    setActiveFolderId(id);
     return id;
   }, [folderIdParam]);
 

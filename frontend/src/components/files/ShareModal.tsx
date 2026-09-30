@@ -10,7 +10,7 @@ import {
   Mail,
 } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
-import { useToast } from '@/context/ToastContext';
+import { useToast } from '@/hooks/useToast';
 import { shareService } from '@/services/shareService';
 import type { FileItem } from '@/services/types';
 import { FileTypeIcon } from '@/components/ui/FileTypeIcon';

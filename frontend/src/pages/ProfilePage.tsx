@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { User, Mail, Calendar, Shield, KeyRound, HardDrive, Save, CheckCircle2 } from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
-import { useToast } from '@/context/ToastContext';
+import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/useToast';
 import { userService } from '@/services/userService';
 import type { UserProfile, StorageUsageResponse } from '@/services/types';
 import { formatBytes, formatDate } from '@/lib/format';

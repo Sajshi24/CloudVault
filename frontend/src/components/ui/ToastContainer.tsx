@@ -1,4 +1,4 @@
-import { useToast } from '@/context/ToastContext';
+import { useToast } from '@/hooks/useToast';
 import { CheckCircle2, AlertCircle, Info, X } from 'lucide-react';
 import type { ToastVariant } from '@/context/ToastContext';
 

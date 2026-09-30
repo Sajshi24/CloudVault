@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { User, Mail, Lock, Eye, EyeOff, ArrowRight, Cloud, ShieldCheck, Share2, Check } from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
-import { useToast } from '@/context/ToastContext';
+import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/useToast';
 import { Logo } from '@/components/ui/Logo';
 
 export function RegisterPage() {
@@ -52,23 +52,37 @@ export function RegisterPage() {
   const strengthColors = ['bg-slate-200', 'bg-rose-400', 'bg-amber-400', 'bg-blue-400', 'bg-emerald-500'];
 
   const handleSubmit = async (ev: React.FormEvent) => {
-    ev.preventDefault();
-    if (!validate()) return;
-    setSubmitting(true);
-    try {
-      await register(fullName.trim(), email, password);
-      notify('Account created! Please sign in.', 'success');
-      navigate('/login');
-    } catch (err: any) {
-      const msg =
-        err?.response?.data?.detail ||
-        err?.response?.data?.message ||
-        'Could not create account. Please try again.';
-      notify(msg, 'error');
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  ev.preventDefault();
+  if (!validate()) return;
+  setSubmitting(true);
+
+  try {
+    await register(fullName.trim(), email, password);
+    notify('Account created! Please sign in.', 'success');
+    navigate('/login');
+  } catch (err: unknown) {
+    const msg =
+      typeof err === 'object' &&
+      err !== null &&
+      'response' in err &&
+      typeof err.response === 'object' &&
+      err.response !== null &&
+      'data' in err.response &&
+      typeof err.response.data === 'object' &&
+      err.response.data !== null &&
+      ('detail' in err.response.data || 'message' in err.response.data)
+        ? String(
+            'detail' in err.response.data
+              ? err.response.data.detail
+              : err.response.data.message
+          )
+        : 'Could not create account. Please try again.';
+
+    notify(msg, 'error');
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   return (
     <div className="flex min-h-screen bg-white">

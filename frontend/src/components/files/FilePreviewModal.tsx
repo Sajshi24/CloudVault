@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { X, Download, FileText, AlertTriangle } from 'lucide-react';
+import { X, Download, FileText} from 'lucide-react';
 import { fileService } from '@/services/fileService';
 import type { FileItem } from '@/services/types';
 import { formatBytes } from '@/lib/format';

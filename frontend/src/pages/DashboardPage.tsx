@@ -13,7 +13,7 @@ import {
   Download,
   Trash2,
 } from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 import { dashboardService } from '@/services/dashboardService';
 import type { DashboardData, FileItem } from '@/services/types';
 import { getGreeting, formatBytes, formatDate } from '@/lib/format';
@@ -23,7 +23,7 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { ErrorState } from '@/components/ui/ErrorState';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { ContextMenu } from '@/components/ui/ContextMenu';
-import { useToast } from '@/context/ToastContext';
+import { useToast } from '@/hooks/useToast';
 import { fileService } from '@/services/fileService';
 import { ShareModal } from '@/components/files/ShareModal';
 import { FilePreviewModal } from '@/components/files/FilePreviewModal';

@@ -4,13 +4,11 @@ import { TopBar } from './TopBar';
 import { MobileNav } from './MobileNav';
 import { NavLink } from 'react-router-dom';
 import { LayoutDashboard, HardDrive, FolderOpen, User, X } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [search, setSearch] = useState('');
-  const location = useLocation();
 
   return (
     <div className="flex min-h-screen bg-slate-50">

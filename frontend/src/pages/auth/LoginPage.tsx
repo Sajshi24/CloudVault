@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowRight, Cloud, ShieldCheck, FolderTree } from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
-import { useToast } from '@/context/ToastContext';
+import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/useToast';
 import { Logo } from '@/components/ui/Logo';
 
 export function LoginPage() {
@@ -27,23 +27,39 @@ export function LoginPage() {
   };
 
   const handleSubmit = async (ev: React.FormEvent) => {
-    ev.preventDefault();
-    if (!validate()) return;
-    setSubmitting(true);
-    try {
-      await login(email, password);
-      notify('Welcome back!', 'success');
-      navigate('/dashboard');
-    } catch (err: any) {
-      const msg =
-        err?.response?.data?.detail ||
-        err?.response?.data?.message ||
-        'Invalid email or password';
-      notify(msg, 'error');
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  ev.preventDefault();
+
+  if (!validate()) return;
+
+  setSubmitting(true);
+
+  try {
+    await login(email, password);
+    notify('Welcome back!', 'success');
+    navigate('/dashboard');
+  } catch (err: unknown) {
+    const msg =
+      typeof err === 'object' &&
+      err !== null &&
+      'response' in err &&
+      typeof err.response === 'object' &&
+      err.response !== null &&
+      'data' in err.response &&
+      typeof err.response.data === 'object' &&
+      err.response.data !== null &&
+      ('detail' in err.response.data || 'message' in err.response.data)
+        ? String(
+            'detail' in err.response.data
+              ? err.response.data.detail
+              : err.response.data.message
+          )
+        : 'Invalid email or password';
+
+    notify(msg, 'error');
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   return (
     <div className="flex min-h-screen bg-white">
