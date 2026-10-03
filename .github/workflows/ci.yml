@@ -31,6 +31,9 @@ jobs:
 
       - name: Run backend tests
         working-directory: backend
+        env:
+          DATABASE_URL: "postgresql+asyncpg://user:password@localhost:5432/testdb"
+          JWT_SECRET_KEY: "ci-test-secret-key-not-used-in-health-check"
         run: uv run pytest
 
   frontend:
