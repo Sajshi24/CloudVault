@@ -19,9 +19,7 @@ services:
       retries: 10
 
   backend:
-    build:
-      context: ./backend
-    image: cloudvault-backend:dev
+    image: ghcr.io/sajshi24/cloudvault-backend:latest
     container_name: cloudvault-api
     restart: unless-stopped
     environment:
@@ -34,9 +32,7 @@ services:
       - "8001:8000"
 
   frontend:
-    build:
-      context: ./frontend
-    image: cloudvault-frontend:dev
+    image: ghcr.io/sajshi24/cloudvault-frontend:latest
     container_name: cloudvault-frontend
     restart: unless-stopped
     depends_on:
